@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Exemplo de requisição HTTP GET com javascript puro</title>
+    <title>Getting IP Data</title>
 </head>
 <body>
     <button onclick="getIpAddress();">Get IP!</button>
 
+    <div id="results">
+    </div>
+
     <script>
         function getIpAddress() {
+            let response;
+            let parsed;
+
             let url = `https://ipgeolocation.abstractapi.com/v1/?api_key=22594bbbe6874dabb28f35a51775f705`
             
             let xhttp = new XMLHttpRequest();
@@ -15,9 +21,17 @@
             xhttp.open("GET", url, true);
             xhttp.send();
             
-            let response = xhttp.responseText;
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    response = xhttp.responseText;
+                    //parsed = JSON.stringify(response);
 
-            console.log(response);
+                    let node = document.createElement("p");
+                    console.log(response)
+                    node.innerHTML = `${response}`;
+                    document.getElementById("results").appendChild(node);
+                }
+            }
         }   
     </script>
 </body>
